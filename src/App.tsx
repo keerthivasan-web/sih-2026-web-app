@@ -65,7 +65,7 @@ const MainContent: React.FC = () => {
         <Sidebar />
 
         {/* Dynamic Operational Content Viewport */}
-        <main className="flex-1 ml-60 lg:ml-64 p-4 lg:p-6 overflow-y-auto max-w-[1600px] transition-all duration-300">
+        <main className="flex-1 ml-0 md:ml-60 lg:ml-64 p-3 sm:p-4 lg:p-6 overflow-y-auto max-w-[1600px] transition-all duration-300">
           <AnimatePresence mode="wait">
             <motion.div
               key={activeModule}

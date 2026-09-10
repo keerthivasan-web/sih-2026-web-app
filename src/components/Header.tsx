@@ -13,7 +13,8 @@ import {
   Moon,
   Search,
   X,
-  Activity
+  Activity,
+  Menu
 } from 'lucide-react';
 
 export const Header: React.FC = () => {
@@ -22,6 +23,8 @@ export const Header: React.FC = () => {
     toggleTheme,
     searchQuery,
     setSearchQuery,
+    isMobileMenuOpen,
+    toggleMobileMenu,
     simulateLandslide, 
     simulateFlood, 
     simulateHeavyRain, 
@@ -48,22 +51,31 @@ export const Header: React.FC = () => {
   return (
     <header className="fixed top-0 left-0 right-0 z-50 glass-header bg-white/95 dark:bg-[#0f172a]/95 border-b border-slate-200 dark:border-slate-800 shadow-sm transition-colors duration-300">
       {/* Top Main Command Bar */}
-      <div className="h-16 w-full px-4 lg:px-6 flex items-center justify-between gap-4">
-        {/* Crest & Title */}
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-600 to-indigo-700 text-white flex items-center justify-center font-black text-sm shadow-md glow-blue">
-            <Radio className="w-5 h-5 text-white animate-pulse" />
+      <div className="h-16 w-full px-3 sm:px-4 lg:px-6 flex items-center justify-between gap-2 sm:gap-4">
+        {/* Crest & Title & Mobile Menu Toggle */}
+        <div className="flex items-center gap-2 sm:gap-3">
+          {/* Mobile Menu Toggle Button */}
+          <button
+            onClick={toggleMobileMenu}
+            className="md:hidden p-2 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors"
+            title="Toggle Navigation Menu"
+          >
+            {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+          </button>
+
+          <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-gradient-to-br from-blue-600 to-indigo-700 text-white flex items-center justify-center font-black text-sm shadow-md glow-blue flex-shrink-0">
+            <Radio className="w-4 h-4 sm:w-5 sm:h-5 text-white animate-pulse" />
           </div>
-          <div className="flex flex-col">
-            <div className="flex items-center gap-2 flex-wrap">
-              <span className="font-sans text-lg font-black tracking-wider text-slate-900 dark:text-white uppercase bg-gradient-to-r from-blue-600 via-indigo-500 to-emerald-500 bg-clip-text text-transparent">
+          <div className="flex flex-col min-w-0">
+            <div className="flex items-center gap-1.5 sm:gap-2 flex-wrap">
+              <span className="font-sans text-base sm:text-lg font-black tracking-wider text-slate-900 dark:text-white uppercase bg-gradient-to-r from-blue-600 via-indigo-500 to-emerald-500 bg-clip-text text-transparent truncate">
                 EXTRICATE
               </span>
-              <span className="text-[11px] font-bold text-blue-700 dark:text-blue-400 bg-blue-50 dark:bg-blue-950/60 px-2.5 py-0.5 rounded-full border border-blue-200 dark:border-blue-800 shadow-xs">
-                AI Logistics Command • NER
+              <span className="text-[10px] sm:text-[11px] font-bold text-blue-700 dark:text-blue-400 bg-blue-50 dark:bg-blue-950/60 px-2 py-0.5 rounded-full border border-blue-200 dark:border-blue-800 shadow-xs hidden xs:inline-block">
+                AI Command
               </span>
             </div>
-            <span className="text-[11px] text-slate-500 dark:text-slate-400 font-medium hidden sm:inline">
+            <span className="text-[10px] sm:text-[11px] text-slate-500 dark:text-slate-400 font-medium hidden md:inline truncate">
               Government Fleet & Route Emergency Intelligence System
             </span>
           </div>

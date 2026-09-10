@@ -1,0 +1,1 @@
+feat: make entire command center web app fully mobile responsive with slide-in navigation drawer

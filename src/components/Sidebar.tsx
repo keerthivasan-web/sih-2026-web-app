@@ -28,7 +28,7 @@ interface NavItem {
 }
 
 export const Sidebar: React.FC = () => {
-  const { activeModule, setActiveModule, kpis, alerts } = useCommand();
+  const { activeModule, setActiveModule, kpis, alerts, isMobileMenuOpen, setIsMobileMenuOpen } = useCommand();
 
   const unacknowledgedAlerts = alerts.filter(a => !a.isAcknowledged).length;
 
@@ -96,7 +96,7 @@ export const Sidebar: React.FC = () => {
               <button
                 key={item.id}
                 onClick={() => setActiveModule(item.id)}
-                className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-left transition-all text-xs font-semibold ${
+                className={`w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-left transition-all text-xs font-semibold ${
                   isActive
                     ? 'bg-blue-50 dark:bg-blue-950/60 text-blue-700 dark:text-blue-300 border-l-4 border-blue-600 shadow-xs'
                     : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800/60 hover:text-slate-900 dark:hover:text-white border-l-4 border-transparent'
@@ -133,29 +133,42 @@ export const Sidebar: React.FC = () => {
   };
 
   return (
-    <aside className="fixed left-0 top-[108px] bottom-0 w-60 lg:w-64 bg-white dark:bg-[#0f172a] border-r border-slate-200 dark:border-slate-800/80 z-40 flex flex-col justify-between overflow-y-auto select-none shadow-sm transition-colors duration-300">
-      <div className="py-3 px-2">
-        {renderNavSection('CORE', 'Core Operations')}
-        {renderNavSection('FLEET', 'Fleet & Risk Control')}
-        {renderNavSection('SYSTEM', 'System & Telemetry')}
-      </div>
+    <>
+      {/* Mobile Backdrop Overlay */}
+      <div 
+        onClick={() => setIsMobileMenuOpen(false)}
+        className={`fixed inset-0 z-35 bg-slate-900/60 backdrop-blur-xs md:hidden transition-opacity duration-300 ${
+          isMobileMenuOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'
+        }`}
+      />
 
-      {/* User Section at the bottom */}
-      <div className="p-3 border-t border-slate-200 dark:border-slate-800/80 bg-slate-50 dark:bg-slate-900/60">
-        <div className="p-2.5 rounded-xl bg-white dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700/60 shadow-2xs flex items-center gap-3">
-          <div className="w-8 h-8 rounded-full bg-blue-100 dark:bg-blue-900/50 text-blue-700 dark:text-blue-300 flex items-center justify-center flex-shrink-0 font-bold text-xs">
-            <User className="w-4 h-4" />
-          </div>
-          <div className="min-w-0 flex-1">
-            <div className="text-xs font-bold text-slate-800 dark:text-slate-100 truncate">Authority Command</div>
-            <div className="text-[10px] text-slate-500 dark:text-slate-400 truncate">Logistics Coordinator</div>
-          </div>
-          <div className="flex items-center gap-1 text-[10px] font-bold text-emerald-600 dark:text-emerald-400">
-            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+      {/* Navigation Drawer */}
+      <aside className={`fixed left-0 top-[108px] bottom-0 w-64 bg-white dark:bg-[#0f172a] border-r border-slate-200 dark:border-slate-800/80 z-40 flex flex-col justify-between overflow-y-auto select-none shadow-xl md:shadow-sm transition-transform duration-300 md:translate-x-0 ${
+        isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full'
+      }`}>
+        <div className="py-3 px-2">
+          {renderNavSection('CORE', 'Core Operations')}
+          {renderNavSection('FLEET', 'Fleet & Risk Control')}
+          {renderNavSection('SYSTEM', 'System & Telemetry')}
+        </div>
+
+        {/* User Section at the bottom */}
+        <div className="p-3 border-t border-slate-200 dark:border-slate-800/80 bg-slate-50 dark:bg-slate-900/60">
+          <div className="p-2.5 rounded-xl bg-white dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700/60 shadow-2xs flex items-center gap-3">
+            <div className="w-8 h-8 rounded-full bg-blue-100 dark:bg-blue-900/50 text-blue-700 dark:text-blue-300 flex items-center justify-center flex-shrink-0 font-bold text-xs">
+              <User className="w-4 h-4" />
+            </div>
+            <div className="min-w-0 flex-1">
+              <div className="text-xs font-bold text-slate-800 dark:text-slate-100 truncate">Authority Command</div>
+              <div className="text-[10px] text-slate-500 dark:text-slate-400 truncate">Logistics Coordinator</div>
+            </div>
+            <div className="flex items-center gap-1 text-[10px] font-bold text-emerald-600 dark:text-emerald-400">
+              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+            </div>
           </div>
         </div>
-      </div>
-    </aside>
+      </aside>
+    </>
   );
 };
 

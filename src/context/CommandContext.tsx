@@ -37,6 +37,9 @@ interface CommandContextType {
   toggleTheme: () => void;
   searchQuery: string;
   setSearchQuery: (query: string) => void;
+  isMobileMenuOpen: boolean;
+  setIsMobileMenuOpen: (open: boolean) => void;
+  toggleMobileMenu: () => void;
   
   activeModule: string;
   setActiveModule: (module: string) => void;
@@ -131,8 +134,6 @@ export const CommandProvider: React.FC<{ children: React.ReactNode }> = ({ child
     const saved = localStorage.getItem('extricate_theme');
     return (saved === 'dark' || saved === 'light') ? saved : 'light';
   });
-  const [searchQuery, setSearchQuery] = useState<string>('');
-
   useEffect(() => {
     const root = document.documentElement;
     if (theme === 'dark') {
@@ -147,7 +148,19 @@ export const CommandProvider: React.FC<{ children: React.ReactNode }> = ({ child
     setTheme(prev => (prev === 'dark' ? 'light' : 'dark'));
   }, []);
 
-  const [activeModule, setActiveModule] = useState<string>('dashboard');
+  const [searchQuery, setSearchQuery] = useState<string>('');
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState<boolean>(false);
+
+  const toggleMobileMenu = useCallback(() => {
+    setIsMobileMenuOpen(prev => !prev);
+  }, []);
+
+  const [activeModule, setActiveModuleState] = useState<string>('dashboard');
+
+  const setActiveModule = useCallback((module: string) => {
+    setActiveModuleState(module);
+    setIsMobileMenuOpen(false); // Close mobile drawer when selecting module
+  }, []);
   
   const [routes, setRoutes] = useState<RouteSegment[]>(INITIAL_ROUTES);
   const [shipments, setShipments] = useState<Shipment[]>(INITIAL_SHIPMENTS);
@@ -778,6 +791,9 @@ export const CommandProvider: React.FC<{ children: React.ReactNode }> = ({ child
     toggleTheme,
     searchQuery,
     setSearchQuery,
+    isMobileMenuOpen,
+    setIsMobileMenuOpen,
+    toggleMobileMenu,
     activeModule,
     setActiveModule,
     routes,

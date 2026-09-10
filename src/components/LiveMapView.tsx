@@ -309,7 +309,7 @@ export const LiveMapView: React.FC = () => {
       {/* Map + Side Inspector Split View */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
         {/* Leaflet Map Stage */}
-        <div className="lg:col-span-8 bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden flex flex-col h-[600px] relative">
+        <div className="lg:col-span-8 bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden flex flex-col h-[420px] sm:h-[600px] relative transition-colors">
           <div ref={mapContainerRef} className="w-full h-full z-10" />
 
           {/* Floating Color Legend on Map */}
